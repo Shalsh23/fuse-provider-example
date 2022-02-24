@@ -5,10 +5,11 @@ from fastapi.logger import logger
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import StreamingResponse
 from typing import List
-
 from bson.json_util import dumps, loads
-
-from fuse.models.Objects import Passports, ProviderExampleObject
+from zipfile import ZipFile
+import pathlib
+import json
+from fuse.models.Objects import Passports, ProviderExampleObject, ExampleMetadata
 
 app = FastAPI()
 
@@ -28,8 +29,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-import pathlib
-import json
 
 
     
@@ -73,7 +72,7 @@ async def objects(object_id: str = Path(default="", description="DrsObject ident
     '''
     Returns object metadata, and a list of access methods that can be used to fetch object bytes.
     '''
-    example_object = ProviderExampleObject()
+    example_object = ExampleMetadata()
     return example_object.dict()
 
 # xxx add value for passport example that doesn't cause server error
@@ -100,10 +99,35 @@ async def get_objects(object_id: str=Path(default="", description="DrsObject ide
     AccessMethod that contains an access_id (e.g., for servers that
     use signed URLs for fetching object bytes).
     '''
+
+
     return {
-        "url": "http://localhost/object.zip",
+        "url": "http://fuse-provider-example:8083/results/examples_zip",
         "headers": "Authorization: None"
     }
+
+@app.get("/results/{object_id}", summary="Get a URL for fetching bytes")
+async def get_examples(object_id: str):
+    examples_zip_path = pathlib.Path('exampleszip')
+    if not examples_zip_path.exists():
+        print("generating zip")
+        local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "examples")
+        ezip = ZipFile('exampleszip', 'w')
+        ezip.write((os.path.join(local_path, f"HPA.csv")), 'HPA.csv')
+        ezip.write(os.path.join(local_path, f"TestPhenotypes_3.csv"), 'TestPhenotypes_3.csv')
+        # ezip.printdir()
+        ezip.close()
+    def iterfile():
+        try:
+            with open('exampleszip', mode="rb") as file_data:
+                yield from file_data
+        except:
+            raise Exception()
+
+    response = StreamingResponse(iterfile(), media_type="application/zip")
+    response.headers["Content-Disposition"] = "attachment; filename=examples"
+    return response
+
 
 # xxx figure out how to add the following description to 'passports':
 # the encoded JWT GA4GH Passport that contains embedded Visas. The overall JWT is signed as are the individual Passport Visas.

@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  fuse-provider-template:
-    container_name: fuse-provider-template
+  fuse-provider-example:
+    container_name: fuse-provider-example
     build: .
     restart: always
     env_file: .env
