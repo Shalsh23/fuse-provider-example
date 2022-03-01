@@ -71,6 +71,7 @@ class Contents(BaseModel):
         "string"
     ]
 
+
 @as_form
 class ProviderExampleObject(BaseModel): # xxx customize this code
     id: str="string"
@@ -110,6 +111,41 @@ class ProviderExampleObject(BaseModel): # xxx customize this code
     ]
     description: str="string"
     aliases: List[str] = [ "string" ]
+
+# metadata for fuse example provider DRS object
+class ExampleMetadata(ProviderExampleObject):
+    id: str = "example_drs"
+    name: str = "example_drs"
+    # self_uri = "drs://fuse-provider-example:8083/example_drs_metadata"
+    created_time: str = "2022-02-04T05:28:01.648Z"
+    updated_time: str = "2022-02-04T05:28:01.648Z"
+    version: str = "1.0"
+    access_methods: List[AccessMethods] = [
+        {
+            "type": "s3",
+            "access_url": {
+                "url": "string",
+                "headers": "Authorization: Basic Z2E0Z2g6ZHJz"
+            },
+            "access_id": "string",
+            "region": "us-east-1"
+        }
+    ]
+    contents: List[Contents] = [
+        {
+            "name": "string",
+            "id": "string",
+            "drs_uri": "drs://drs.example.org/314159",
+            "contents": [
+                "string"
+            ]
+        }
+    ]
+    description: str="string"
+    aliases: List[str] = [ "string" ]
+
+
+
 
 @as_form
 class Passports(BaseModel):

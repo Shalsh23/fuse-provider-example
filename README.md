@@ -1,6 +1,6 @@
-[![AppVeyor](https://img.shields.io/docker/cloud/build/txscience/fuse-provider-template?style=plastic)](https://hub.docker.com/repository/docker/txscience/fuse-provider-template/builds)
+[![AppVeyor](https://img.shields.io/docker/cloud/build/txscience/fuse-provider-example?style=plastic)](https://hub.docker.com/repository/docker/txscience/fuse-provider-example/builds)
 
-# fuse-provider-template
+# fuse-provider-example
 
 Clone this repo to create a new FUSE-style data provider service.
 
@@ -41,14 +41,14 @@ Note, a service must specify a pluginType, so for the purpose of this demonstrat
 git clone --recursive http://github.com/RENCI/<your-repo-name>
 ```
 * Make sure the tests pass (`./up.sh; prove` - see "validate installation" below to install test harness dependencies)
-* Edit this README.md file and replace all occurrences of `fuse-provider-template` with your repo's name
+* Edit this README.md file and replace all occurrences of `fuse-provider-example` with your repo's name
 * Update the source files appropriately:
  - [ ] **config/server-info.json**: describe your service's pluginType ["p":"Provider", "m":"Mapper", "t":"Tool"], required parameters, and supported/required objectVariables. Add anything required by GA4GH's DRS API
- - [ ] **docker-compose.yml**: replace `fuse-provider-template` with your repo's name and customize accordingly
+ - [ ] **docker-compose.yml**: replace `fuse-provider-example` with your repo's name and customize accordingly
  - [ ] **requirements.txt**: add your *version-locked* library requirements to the list
  - [ ] **sample.env**: add any required environmental variables, don't forget to also document them in this readme
  - [ ] **main.py**: 
-   - [ ] Search for all occurrences of `fuse-provider-template` and replace
+   - [ ] Search for all occurrences of `fuse-provider-example` and replace
    - [ ] Define and add endpoints for your service
    - [ ] Create functions in ./lib to support you endpoints, with unit tests, adding the unit tests to github actions (examples coming soon!)
  - [ ] **write and run tests against the deployed containers - look at t/*.t for examples
@@ -59,7 +59,7 @@ git clone --recursive http://github.com/RENCI/<your-repo-name>
 ## configuration
 
 1. Get this repository:
-`git clone --recursive http://github.com/RENCI/fuse-provider-template
+`git clone --recursive http://github.com/RENCI/fuse-provider-example
 
 2. Copy `sample.env` to `.env` and edit to suit your provider:
 * __API_PORT__ pick a unique port to avoid appliances colliding with each other
