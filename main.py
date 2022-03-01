@@ -110,7 +110,7 @@ async def get_objects(object_id: str=Path(default="", description="DrsObject ide
 async def get_examples(object_id: str):
     examples_zip_path = pathlib.Path('exampleszip')
     if not examples_zip_path.exists():
-        print("generating zip")
+        # print("generating zip")
         local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "examples")
         ezip = ZipFile('exampleszip', 'w')
         ezip.write((os.path.join(local_path, f"HPA.csv")), 'HPA.csv')
